@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<configuration>  
+    <!-- 
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>  
+     -->
+     
+     <conversionRule conversionWord="catsid" converterClass="com.bloosoming.cat.common.CatSidConvert" />
+     
+    <property resource="bootstrap.properties" />
+    <if condition='property("spring.profiles.active")==null || property("spring.profiles.active")==""'>
+        <then>
+            <property resource="bootstrap-default.properties" />
+        </then>
+        <else>
+            <property resource="bootstrap-${spring.profiles.active}.properties" />
+        </else>
+    </if>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--> 
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%catsid] %c:%L - %msg%n</pattern>
+        </encoder> 
+    </appender>
+    
+    <!-- 按照每天生成日志文件 -->   
+    <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <fileNamePattern>${log.home}/${spring.application.name}.${server.id}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>30</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>   
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符--> 
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%catsid] %c:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--关闭爬虫Mapper日志功能   (SQL记录太多了)-->
+    <logger name="cn.blooming.bep.crawler.model.mapper" level="OFF"/>
+    <!--关闭htmlunit日志功能-->
+    <logger name="com.gargoylesoftware" level="OFF"/>
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="com.netflix" level="ERROR"/>
+    <logger name="org.apache" level="ERROR"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.springframework.cloud.endpoint" level="DEBUG"/>
+    <logger name="org.mybatis" level="ERROR"/>
+    <logger name="io.netty" level="ERROR"/>
+    <logger name="com.zaxxer.hikari" level="ERROR"/>
+    <logger name="org.eclipse.jetty" level="ERROR"/>
+    <logger name="com.xxl.job" level="WARN"/>
+    <logger name="springfox" level="ERROR"/>
+    <logger name="com.bloosoming.rpcproxy.server.AutoRpcRequestMappingHandlerMapping" level="INFO"/>
+    
+    <logger name="sun.net" level="ERROR"/>
+    <logger name="de.codecentric.boot.admin.client" level="INFO"/>
+    
+    <logger name="com.bloosoming.common.KryoHandlerMethodArgumentResolver" level="TRACE"/>
+    
+    <logger name="com.bloosoming.rpcproxy.client.RPCRestTemplate" level="INFO"/>
+
+    <appender name="CatLogbackAppender" class="com.bloosoming.cat.common.CatLogbackAppender">
+    </appender>
+    
+    <springProfile name="test,prod">
+        <root level="${log.level}">
+            <appender-ref ref="FILE" />
+            <appender-ref ref="CatLogbackAppender" />
+        </root> 
+    </springProfile>
+    
+    <springProfile name="default,dev,sit">
+        <root level="${log.level}">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="FILE" />
+            <appender-ref ref="CatLogbackAppender" />
+        </root> 
+    </springProfile>
+  
+</configuration>

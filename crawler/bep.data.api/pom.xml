@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.blooming</groupId>
+    <artifactId>bep</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>cn.blooming</groupId>
+  <artifactId>bep.data.api</artifactId>
+  <version>0.0.2-SNAPSHOT</version>
+  <name>bep.data.api</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+
+        <dependency>
+            <groupId>cn.blooming</groupId>
+            <artifactId>bep.common.api</artifactId>
+            <version>0.0.16-SNAPSHOT</version>
+        </dependency>
+
+  </dependencies>
+  <description>数据服务</description>
+    
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Blooming Snapshot Repository</name>
+			<url>http://192.168.1.132:8081/repository/blooming-snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
+  
+</project>

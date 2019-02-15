@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.blooming</groupId>
+    <artifactId>bep</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>cn.blooming</groupId>
+  <artifactId>bep.crawler</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>bep.crawler</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+
+        <dependency>
+            <groupId>cn.blooming</groupId>
+            <artifactId>bep.common</artifactId>
+            <version>[${bep.version}]</version>
+        </dependency>
+
+      <!-- crawler start -->
+      <!--htmlunit 爬取数据-->
+      <dependency>
+          <groupId>net.sourceforge.htmlunit</groupId>
+          <artifactId>htmlunit</artifactId>
+          <version>2.25</version>
+      </dependency>
+
+      <!--jsoup 解析html-->
+      <dependency>
+          <groupId>org.jsoup</groupId>
+          <artifactId>jsoup</artifactId>
+          <version>1.8.1</version>
+      </dependency>
+      <!-- crawler end -->
+
+      <!-- lucene start -->
+      <!-- lucene 核心模块  -->
+      <dependency>
+          <groupId>org.apache.lucene</groupId>
+          <artifactId>lucene-core</artifactId>
+          <version>7.3.0</version>
+      </dependency>
+
+      <!-- Lucene提供的中文分词器模块，lucene-analyzers-smartcn -->
+      <dependency>
+          <groupId>org.apache.lucene</groupId>
+          <artifactId>lucene-analyzers-smartcn</artifactId>
+          <version>7.3.0</version>
+      </dependency>
+
+      <!-- ikanalyzer 中文分词器  -->
+      <dependency>
+          <groupId>com.janeluo</groupId>
+          <artifactId>ikanalyzer</artifactId>
+          <version>2012_u6</version>
+
+          <exclusions>
+              <exclusion>
+                  <groupId>org.apache.lucene</groupId>
+                  <artifactId>lucene-core</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>org.apache.lucene</groupId>
+                  <artifactId>lucene-queryparser</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>org.apache.lucene</groupId>
+                  <artifactId>lucene-analyzers-common</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+
+      <!--  lucene-queryparser 查询分析器模块 -->
+      <dependency>
+          <groupId>org.apache.lucene</groupId>
+          <artifactId>lucene-queryparser</artifactId>
+          <version>7.3.0</version>
+      </dependency>
+
+      <!-- 中文转换拼音字母 -->
+      <dependency>
+          <groupId>org.clojars.cbilson</groupId>
+          <artifactId>pinyin4j</artifactId>
+          <version>2.5.0</version>
+      </dependency>
+
+      <!-- lucene end -->
+
+        <dependency>
+            <groupId>cn.blooming</groupId>
+            <artifactId>bep.data.api</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.blooming</groupId>
+            <artifactId>bep.baseservice.api</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
+        </dependency>
+          <dependency>
+              <groupId>cn.blooming</groupId>
+              <artifactId>bep.fund.api</artifactId>
+              <version>0.0.1-SNAPSHOT</version>
+          </dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-lang3</artifactId>
+          <version>3.7</version>
+      </dependency>
+
+      <dependency>
+          <groupId>cn.blooming</groupId>
+          <artifactId>bep.accounts.api</artifactId>
+          <version>0.0.15-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
+
+  </dependencies>
+  
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**.*</include>
+                    <include>**/*.*</include><!-- i18n能读取到 -->
+                    <include>**/*/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+                    <fork>true</fork> <!-- 如果没有该配置，devtools不会生效 -->
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>cn.blooming.bep.crawler.App</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <finalName>bep.crawlerdata</finalName>
+    </build>
+  
+</project>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.blooming.bep.crawler.model.mapper.ext.QueryFundMapper">
+
+  <sql id="filtrations">
+    <if test="dateType !=null">
+       <if test="dateType == 'average7days'">
+          AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 7 DAY) AND NOW() AND fund.type=#{type}
+       </if>
+      <if test="dateType == 'average1month'">
+        AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 1 MONTH) AND NOW() AND fund.type=#{type}
+      </if>
+      <if test="dateType == 'average3month'">
+        AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 3 MONTH) AND NOW() AND fund.type=#{type}
+      </if>
+      <if test="dateType == 'average6month'">
+        AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 6 MONTH) AND NOW() AND fund.type=#{type}
+      </if>
+      <if test="dateType == 'average1year'">
+        AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 1 YEAR) AND NOW() AND fund.type=#{type}
+      </if>
+      <if test="dateType == 'average2year'">
+        AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 2 YEAR) AND NOW() AND fund.type=#{type}
+      </if>
+      <if test="dateType == 'average3year'">
+        AND DATE BETWEEN DATE_SUB(#{date},INTERVAL 3 YEAR) AND NOW() AND fund.type=#{type}
+      </if>
+    </if>
+  </sql>
+
+  <select id="getTypeMean" resultType="String">
+    SELECT AVG(fund_history.net_value) AS `value` FROM fund_history, fund
+    WHERE fund_history.code = fund.code
+    <include refid="filtrations"/>
+    GROUP BY fund.type
+    ORDER BY fund.type DESC
+  </select>
+
+  <select id="getFundStatsticsMap" resultType="Map">
+    SELECT fund_history.date AS date,fund.type AS type,AVG(fund_history.net_value) AS value FROM fund_history, fund
+    WHERE fund_history.code = fund.code
+    GROUP BY fund.type,fund_history.date
+    ORDER BY fund_history.date DESC
+  </select>
+
+  <select id="getAverageByDateAndType" resultType="String">
+    SELECT AVG(fund_history.net_value) AS VALUE FROM fund_history, fund
+    WHERE fund_history.code = fund.code AND fund_history.`date` = #{date} AND fund.type= #{type}
+    GROUP BY fund.type,fund_history.`date` ORDER BY fund_history.`date` DESC
+    LIMIT 0,1
+  </select>
+
+  <select id="selectGetMaxUpdateTime" resultType="Date">
+     SELECT MAX(`updated_time`) FROM fund WHERE fund_house_code=#{fund_house_code}
+  </select>
+
+  <select id="selectGetFundTypes" resultType="String">
+      SELECT `type` FROM fund GROUP BY TYPE
+  </select>
+
+</mapper>

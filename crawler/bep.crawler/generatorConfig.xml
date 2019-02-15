@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:mysql://192.168.1.129:3306/eaccount_platform_design?zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;characterEncoding=utf-8" 
+                    driverClass="com.mysql.jdbc.Driver" password="skwl123456" userId="sk" />
+    <javaModelGenerator targetPackage="cn.blooming.bep.crawler.model.entity" targetProject="bep.crawler" />
+    <sqlMapGenerator targetPackage="cn.blooming.bep.crawler.model.sqlmap" targetProject="bep.crawler" />
+    <javaClientGenerator targetPackage="cn.blooming.bep.crawler.model.mapper" targetProject="bep.crawler" type="XMLMAPPER" />
+    
+    <table tableName="fund_history"></table> 
+    <table tableName="fund_house"></table>
+    <table tableName="fund"></table>
+    <table tableName="bank"></table>
+    <table tableName="cardbin"></table>
+     
+    <table tableName="fund_statistics"></table>
+
+  </context>
+</generatorConfiguration>
